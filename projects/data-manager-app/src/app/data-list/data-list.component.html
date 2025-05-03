@@ -1,0 +1,8 @@
+<h2>Manage Data Items</h2>
+<ul *ngIf="dataItems$ | async as items">
+  <li *ngFor="let item of items">
+    <strong>ID:</strong> {{ item.id }} - <strong>Name:</strong> {{ item.name }} - {{ item.description }}
+    <button (click)="deleteItem(item.id)">Delete</button>
+  </li>
+</ul>
+<p *ngIf="!(dataItems$ | async)?.length">No data available.</p>

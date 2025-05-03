@@ -1,0 +1,10 @@
+<h3>Add New Data Item</h3>
+<div>
+  <label for="name">Name:</label>
+  <input type="text" id="name" [(ngModel)]="newItemName">
+</div>
+<div>
+  <label for="description">Description:</label>
+  <textarea id="description" [(ngModel)]="newItemDescription"></textarea>
+</div>
+<button (click)="addItem()">Add Item</button>

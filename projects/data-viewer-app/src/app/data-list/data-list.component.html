@@ -1,0 +1,7 @@
+<h2>Data Items</h2>
+<ul *ngIf="dataItems$ | async as items">
+  <li *ngFor="let item of items">
+    <strong>ID:</strong> {{ item.id }} - <strong>Name:</strong> {{ item.name }} - {{ item.description }}
+  </li>
+</ul>
+<p *ngIf="!(dataItems$ | async)?.length">No data available.</p>
