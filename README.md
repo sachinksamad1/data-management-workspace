@@ -1,59 +1,102 @@
-# DataManagementWorkspace
+# Angular Workspace for Data Management
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.5.
+This project demonstrates a simple Angular workspace with two separate applications (`data-viewer-app` and `data-manager-app`) that interact with a shared "database" (simulated in-memory) through a common library (`shared-data-service`). This setup illustrates how to structure a multi-app Angular project and share data and logic between applications.
 
-## Development server
-
-To start a local development server, run:
-
-```bash
-ng serve
+## Project Structure
+```
+data-management-workspace/
+├── projects/
+│   ├── data-manager-app/        # Application for adding and deleting data
+│   │   ├── ...
+│   ├── data-viewer-app/         # Application for viewing data only
+│   │   ├── ...
+│   └── shared-data-service/    # Shared library containing data model and service
+│       ├── src/
+│       │   ├── lib/
+│       │   │   ├── models/
+│       │   │   │   └── data-item.model.ts
+│       │   │   └── services/
+│       │   │       └── data.service.ts
+│       │   └── public-api.ts
+│       └── ...
+├── angular.json               # Angular CLI configuration file
+├── package.json
+├── README.md                  # This file
+└── ...
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Applications
 
-## Code scaffolding
+* **`data-viewer-app`**: A basic user interface that displays a list of data items fetched from the shared service. Users of this application can only view the data.
+* **`data-manager-app`**: An administrative interface that allows users to view, add, and delete data items using the shared service.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Shared Library
 
-```bash
-ng generate component component-name
-```
+* **`shared-data-service`**: This library contains:
+    * **`DataItem` Model**: Defines the structure of the data items.
+    * **`DataService`**: A service that manages the data (in-memory). It provides methods to get the data, add new items, and delete existing items. It uses a `BehaviorSubject` to emit changes to the data, allowing both applications to stay updated.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Getting Started
 
-```bash
-ng generate --help
-```
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/sachinksamad1/data-management-workspace.git
+    cd data-management-workspace
+    ```
 
-## Building
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
 
-To build the project run:
+3.  **Build the shared library:**
+    ```bash
+    ng build shared-data-service
+    ```
 
-```bash
-ng build
-```
+4.  **Serve the applications:**
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+    Open two separate terminal windows in the root of the workspace:
 
-## Running unit tests
+    * **Data Viewer App:**
+        ```bash
+        ng serve data-viewer-app -o
+        ```
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+    * **Data Manager App:**
+        ```bash
+        ng serve data-manager-app -o
+        ```
 
-```bash
-ng test
-```
+    The `data-viewer-app` will be accessible at `http://localhost:4200/` (or a similar port), and the `data-manager-app` will be at `http://localhost:4201/` (or another port).
 
-## Running end-to-end tests
+## Functionality
 
-For end-to-end (e2e) testing, run:
+**Data Viewer App:**
 
-```bash
-ng e2e
-```
+* Displays a list of data items (ID, Name, Description).
+* The list updates automatically when data is added or deleted through the Data Manager App.
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+**Data Manager App:**
 
-## Additional Resources
+* Displays a list of data items with a "Delete" button for each item.
+* Provides a form to add new data items (Name and Description).
+* Changes made here are reflected in the Data Viewer App in real-time.
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Key Concepts Demonstrated
+
+* **Angular Workspaces:** Organizing multiple related projects within a single repository.
+* **Shared Libraries:** Creating reusable modules containing services, components, and models that can be used by multiple applications within the workspace.
+* **Service-Based Data Sharing:** Using a shared service (`DataService`) to manage and provide data to different applications.
+* **`BehaviorSubject` for State Management:** Employing `BehaviorSubject` to hold and emit the latest data, enabling reactive updates across applications.
+* **Separation of Concerns:** Distinguishing between user roles and their respective functionalities in separate applications.
+
+## Further Development
+
+This is a basic example and can be extended in many ways, such as:
+
+* Implementing a real backend database instead of in-memory data.
+* Adding user authentication and authorization to properly secure the data management features.
+* Implementing more complex data manipulation features (e.g., editing).
+* Using a more robust state management solution (e.g., NgRx, NgXS) for larger applications.
+* Adding unit and integration tests.
